@@ -1,0 +1,1893 @@
+g2 ( git client )--> g1( git server ) < -- g3 ( git client )
+
+< from g1 server >
+
+rdans-MBP:~ jordanlee$ ssh root@10.0.0.218
+root@10.0.0.218's password: 
+Last login: Sun Sep 17 16:05:43 2023 from jordans-mbp
+[root@g1 ~]# su - g1
+Last login: Sun Sep 17 16:04:36 PDT 2023 on pts/0
+[g1@g1 ~]$ ls
+repo
+[g1@g1 ~]$ cd repo/
+[g1@g1 repo]$ ls -rlht
+total 0
+drwxrwsr-x. 7 g1 g1 119 Aug  1  2020 class_080120
+drwxrwsr-x. 7 g1 g1 119 Sep 19  2020 class_091920
+drwxrwsr-x. 7 g1 g1 119 Sep 23  2020 bash_092320
+drwxrwsr-x. 7 g1 g1 119 Nov 23  2020 bash_112320
+drwxrwsr-x. 7 g1 g1 119 Nov 24  2020 class_112420
+drwxrwsr-x. 7 g1 g1 119 Dec 23  2020 bash_122320
+drwxrwsr-x. 7 g1 g1 119 Dec 25  2020 bash_122520
+drwxrwsr-x. 7 g1 g1 119 Jan 17  2022 python_011722
+drwxrwsr-x. 7 g1 g1 119 Jan 23  2022 python_012322
+drwxrwsr-x. 7 g1 g1 119 Jun 26  2022 bash_062622
+drwxrwsr-x. 7 g1 g1 119 Jan 16  2023 python_011623
+[g1@g1 repo]$ git init bare shared python_091723
+usage: git init [-q | --quiet] [--bare] [--template=<template-directory>] [--shared[=<permissions>]] [directory]
+[g1@g1 repo]$ git init --bare --shared python_091723
+Initialized empty shared Git repository in /home/g1/repo/python_091723/
+[g1@g1 repo]$ ls -rlht
+total 0
+drwxrwsr-x. 7 g1 g1 119 Aug  1  2020 class_080120
+drwxrwsr-x. 7 g1 g1 119 Sep 19  2020 class_091920
+drwxrwsr-x. 7 g1 g1 119 Sep 23  2020 bash_092320
+drwxrwsr-x. 7 g1 g1 119 Nov 23  2020 bash_112320
+drwxrwsr-x. 7 g1 g1 119 Nov 24  2020 class_112420
+drwxrwsr-x. 7 g1 g1 119 Dec 23  2020 bash_122320
+drwxrwsr-x. 7 g1 g1 119 Dec 25  2020 bash_122520
+drwxrwsr-x. 7 g1 g1 119 Jan 17  2022 python_011722
+drwxrwsr-x. 7 g1 g1 119 Jan 23  2022 python_012322
+drwxrwsr-x. 7 g1 g1 119 Jun 26  2022 bash_062622
+drwxrwsr-x. 7 g1 g1 119 Jan 16  2023 python_011623
+drwxrwsr-x. 7 g1 g1 119 Sep 17 16:07 python_091723
+[g1@g1 repo]$ df -hP
+Filesystem               Size  Used Avail Use% Mounted on
+/dev/mapper/centos-root  6.2G  2.1G  4.2G  33% /
+devtmpfs                 484M     0  484M   0% /dev
+tmpfs                    496M     0  496M   0% /dev/shm
+tmpfs                    496M  6.9M  489M   2% /run
+tmpfs                    496M     0  496M   0% /sys/fs/cgroup
+/dev/sda1               1014M  146M  869M  15% /boot
+tmpfs                    100M     0  100M   0% /run/user/1001
+tmpfs                    100M     0  100M   0% /run/user/0
+[g1@g1 repo]$ cd python_091723/
+[g1@g1 python_091723]$ git config list
+error: key does not contain a section: list
+[g1@g1 python_091723]$ git config --list
+core.repositoryformatversion=0
+core.filemode=true
+core.bare=true
+core.sharedrepository=1
+receive.denynonfastforwards=true
+[g1@g1 python_091723]$ more ~/.ssh/authorized_keys 
+ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQCrmpepTqPhxKTMmAySRkafTX5gCdVa9Qi2/z0gvRP++eTXc6OdFnzJX+UEzJhTtM2PQIwsCtNZ0xS7u22TYXO3tecuwCTFWk4yjhKdove2G+dCKYKytDRJCJ
+eqYohhnZF/hyJd//yTeJ5ZMcvdK6qqQhnQIJKbW37f6ey5nPYP/4QL7Rfu3OzMh+J4lyvcqSzcEEqT2TgLrhWQDHpzhNe2Bm1m+eUIsSaH7m5nId6iY7/fDqJVuXVibdVgSxnEWCkTfSVG5P9AFt1jE8JoLsj1
+BcLfk4D2+/tY9j0CK/vE0EpcWJY1ksf8ZL0sbak0QuVvnnOSFOk1phxpIpVi194H g3@g3
+ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQCzz7qYOdvdJ1ht/rDWp2ClmG77nIJ+xLQ3P26xY1YOEAu9t86ASSNff1GiQwov3gghwYX2PSucij1aLhZ9z8y5+JVrZwud13fRT/oKyNGyYqp7RQCy2L+75b
+IVokLtHx7cGg75/W1acSsdfrEhwWnigxhQV1b/Wlpp0SedzHf+8At6XCYJrZDbdHe+jz6v+qz1z8Qk1KF93kb3pORpVUN3eZAxI0teQOQ/GQ6IghsKEKksq6AUVph3atdaBU65mLmcjvYu0lXG05fJQkZBiDLo
+t40rDBSE9bBJnH8Wt0qnZzfj9NP6Iw0lT2sz9RSvjxeh7qL9Ef9r78Sz2+lDN2lf g2@g2
+[g1@g1 python_091723]$ ls /home
+g1  itadmin
+[g1@g1 python_091723]$ cat ~/.ssh/authorized_keys 
+ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQCrmpepTqPhxKTMmAySRkafTX5gCdVa9Qi2/z0gvRP++eTXc6OdFnzJX+UEzJhTtM2PQIwsCtNZ0xS7u22TYXO3tecuwCTFWk4yjhKdove2G+dCKYKytDRJCJeqYohhnZF/hyJd//yTeJ5ZMcvdK6qqQhnQIJKbW37f6ey5nPYP/4QL7Rfu3OzMh+J4lyvcqSzcEEqT2TgLrhWQDHpzhNe2Bm1m+eUIsSaH7m5nId6iY7/fDqJVuXVibdVgSxnEWCkTfSVG5P9AFt1jE8JoLsj1BcLfk4D2+/tY9j0CK/vE0EpcWJY1ksf8ZL0sbak0QuVvnnOSFOk1phxpIpVi194H g3@g3
+ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQCzz7qYOdvdJ1ht/rDWp2ClmG77nIJ+xLQ3P26xY1YOEAu9t86ASSNff1GiQwov3gghwYX2PSucij1aLhZ9z8y5+JVrZwud13fRT/oKyNGyYqp7RQCy2L+75bIVokLtHx7cGg75/W1acSsdfrEhwWnigxhQV1b/Wlpp0SedzHf+8At6XCYJrZDbdHe+jz6v+qz1z8Qk1KF93kb3pORpVUN3eZAxI0teQOQ/GQ6IghsKEKksq6AUVph3atdaBU65mLmcjvYu0lXG05fJQkZBiDLot40rDBSE9bBJnH8Wt0qnZzfj9NP6Iw0lT2sz9RSvjxeh7qL9Ef9r78Sz2+lDN2lf g2@g2
+[g1@g1 python_091723]$ man ssh copy-id
+[g1@g1 python_091723]$ pwd
+/home/g1/repo/python_091723
+[g1@g1 python_091723]$ git log
+commit f2ea1fcef63f4a7ac6c8145afb72a8ecfcc5e9d6
+Author: g 2 <g2@g2.com>
+Date:   Sun Sep 17 16:42:03 2023 -0700
+
+    commit on 091723 at 442pm
+[g1@g1 python_091723]$ pwd
+/home/g1/repo/python_091723
+[g1@g1 python_091723]$ ls -rlht
+total 12K
+drwxrwsr-x. 4 g1 g1  31 Sep 17 16:07 refs
+drwxrwsr-x. 2 g1 g1   6 Sep 17 16:07 branches
+-rw-rw-r--. 1 g1 g1  73 Sep 17 16:07 description
+drwxrwsr-x. 2 g1 g1 242 Sep 17 16:07 hooks
+drwxrwsr-x. 2 g1 g1  21 Sep 17 16:07 info
+-rw-rw-r--. 1 g1 g1  23 Sep 17 16:07 HEAD
+-rw-rw-r--. 1 g1 g1 126 Sep 17 16:07 config
+drwxrwsr-x. 7 g1 g1  60 Sep 17 16:44 objects
+[g1@g1 python_091723]$ cd refs/
+[g1@g1 refs]$ ls
+heads  tags
+[g1@g1 refs]$ cd heads/
+[g1@g1 heads]$ ls
+master
+[g1@g1 heads]$ cat master 
+f2ea1fcef63f4a7ac6c8145afb72a8ecfcc5e9d6
+[g1@g1 heads]$ pwd
+/home/g1/repo/python_091723/refs/heads
+[g1@g1 heads]$ cd ../..
+[g1@g1 python_091723]$ pwd
+/home/g1/repo/python_091723
+[g1@g1 python_091723]$ git log
+commit a13bb7984fac0c73a3009349d167bf8106fb3363
+Author: g 3 <g3@g3.com>
+Date:   Sun Sep 17 17:18:24 2023 -0700
+
+    commit @ 518pm on g3
+
+commit f2ea1fcef63f4a7ac6c8145afb72a8ecfcc5e9d6
+Author: g 2 <g2@g2.com>
+Date:   Sun Sep 17 16:42:03 2023 -0700
+
+    commit on 091723 at 442pm
+[g1@g1 python_091723]$ git log
+commit 593419b4bf05217f6ce761e0247a56f466b8af95
+Merge: 1cc2afb cc7a7c2
+Author: g 2 <g2@g2.com>
+Date:   Sun Sep 17 17:31:46 2023 -0700
+
+    after fixing the conflict and recommit on g2 master at 531pm
+
+commit 1cc2afb08354f6900d6fc25090998f61bf03659f
+Author: g 2 <g2@g2.com>
+Date:   Sun Sep 17 17:30:08 2023 -0700
+
+     on g2 master 530pm
+
+commit cc7a7c2bc063179b59f32f4e99edb084c9321a67
+Author: g 2 <g2@g2.com>
+Date:   Sun Sep 17 17:26:07 2023 -0700
+
+    commit at g22ndbranch at 526pm
+
+commit a13bb7984fac0c73a3009349d167bf8106fb3363
+Author: g 3 <g3@g3.com>
+Date:   Sun Sep 17 17:18:24 2023 -0700
+
+    commit @ 518pm on g3
+
+commit f2ea1fcef63f4a7ac6c8145afb72a8ecfcc5e9d6
+Author: g 2 <g2@g2.com>
+Date:   Sun Sep 17 16:42:03 2023 -0700
+
+    commit on 091723 at 442pm
+[g1@g1 python_091723]$ exit
+logout
+[root@g1 ~]# init 0
+Connection to 10.0.0.218 closed by remote host.
+Connection to 10.0.0.218 closed.
+Jordans-MBP:~ jordanlee$ 
+
+
+
+< from g2 client >
+
+Last failed login: Sun Sep 17 16:31:16 PDT 2023 from jordans-mbp on ssh:notty
+There was 1 failed login attempt since the last successful login.
+Last login: Sun Sep 17 16:16:00 2023 from jordans-mbp
+[root@g2 ~]# su - g2
+Last login: Sun Sep 17 16:16:09 PDT 2023 on pts/0
+[g2@g2 ~]$ cd .ssh
+[g2@g2 .ssh]$ ls -lhrta
+total 16K
+-rw-------. 1 g2 g2    0 Aug  1  2020 authorized_keys
+-rw-r--r--. 1 g2 g2  387 Aug  1  2020 id_rsa.pub
+-rw-------. 1 g2 g2 1.7K Aug  1  2020 id_rsa
+-rw-------. 1 g2 g2  354 Nov 23  2020 known_hosts.old
+drwx------. 2 g2 g2  103 Nov 23  2020 .
+drwx------. 4 g2 g2  141 Nov 23  2020 ..
+-rw-------. 1 g2 g2  511 Jan 17  2022 known_hosts
+[g2@g2 .ssh]$ more authorized_keys 
+[g2@g2 .ssh]$ cd ~
+[g2@g2 ~]$ history | grep clone
+   93  git clone g2@g1:/home/g1/repo/bash_112320
+  102  git clone g1@g1:/home/g1/repo/bash_112320/
+  156  git clone g1@g1:/home/g1/repo/class_112420
+  263  git clone g1@g1:/home/g1/repo/bash_122320
+  309  git clone g1@g1:/home/g1/repo/bash_122520
+  321  git clone g1@g1:/home/g1/repo/bash_122520
+  388  git clone g1@g1:/home/g1/repo/python_011722
+  518  git clone g1@g1:/home/g1/repo/python_012322
+  610  git clone g1@g1:/home/g1/repo/bash_062622
+  730  history | grep clone
+  741  history | grep git | grep clone
+  743  git clone g1@g1:/home/g1/repo/python_011623
+  956  history | grep clone
+[g2@g2 ~]$ ls /home/
+g2  itadmin
+[g2@g2 ~]$ ssh g1@g1
+Last login: Sun Sep 17 16:06:05 2023
+[g1@g1 ~]$ exit
+logout
+Connection to g1 closed.
+[g2@g2 ~]$ clear
+
+[g2@g2 ~]$ 
+[g2@g2 ~]$ 
+[g2@g2 ~]$ 
+[g2@g2 ~]$ 
+[g2@g2 ~]$ 
+[g2@g2 ~]$ 
+[g2@g2 ~]$ 
+[g2@g2 ~]$ 
+[g2@g2 ~]$ history | grep clone
+   93  git clone g2@g1:/home/g1/repo/bash_112320
+  102  git clone g1@g1:/home/g1/repo/bash_112320/
+  156  git clone g1@g1:/home/g1/repo/class_112420
+  263  git clone g1@g1:/home/g1/repo/bash_122320
+  309  git clone g1@g1:/home/g1/repo/bash_122520
+  321  git clone g1@g1:/home/g1/repo/bash_122520
+  388  git clone g1@g1:/home/g1/repo/python_011722
+  518  git clone g1@g1:/home/g1/repo/python_012322
+  610  git clone g1@g1:/home/g1/repo/bash_062622
+  730  history | grep clone
+  741  history | grep git | grep clone
+  743  git clone g1@g1:/home/g1/repo/python_011623
+  956  history | grep clone
+  960  history | grep clone
+[g2@g2 ~]$ git clone g1@g1:/home/g1/repo/python_091723
+Cloning into 'python_091723'...
+warning: You appear to have cloned an empty repository.
+[g2@g2 ~]$ 
+[g2@g2 ~]$ 
+[g2@g2 ~]$ ls
+python_091723  repo
+[g2@g2 ~]$ cd repo/
+[g2@g2 repo]$ pwd
+/home/g2/repo
+[g2@g2 repo]$ ls -lhrt
+total 0
+drwxrwxr-x. 3 g2 g2  41 Aug  1  2020 class_080120
+drwxrwxr-x. 3 g2 g2  41 Sep 19  2020 class_091920
+drwxrwxr-x. 5 g2 g2  81 Sep 23  2020 bash_092320
+drwxrwxr-x. 3 g2 g2  40 Nov 23  2020 bash_112320
+drwxrwxr-x. 3 g2 g2  41 Nov 24  2020 class_112420
+drwxrwxr-x. 3 g2 g2  40 Dec 23  2020 bash_122320
+drwxrwxr-x. 3 g2 g2  40 Dec 25  2020 bash_122520
+drwxrwxr-x. 3 g2 g2 130 Jan 17  2022 python_011722
+drwxrwxr-x. 2 g2 g2  89 Jan 23  2022 python_code_012322
+drwxrwxr-x. 3 g2 g2 101 Jan 23  2022 python_012322
+drwxrwxr-x. 3 g2 g2  40 Jun 26  2022 bash_062622
+drwxrwxr-x. 3 g2 g2  47 Jan 16  2023 python_011623
+[g2@g2 repo]$ cd ..
+[g2@g2 ~]$ ls -lrht
+total 0
+drwxrwxr-x. 14 g2 g2 250 Jan 16  2023 repo
+drwxrwxr-x.  3 g2 g2  18 Sep 17 16:38 python_091723
+[g2@g2 ~]$ rm -rf python_091723/
+[g2@g2 ~]$ cd repo/
+[g2@g2 repo]$ pwd
+/home/g2/repo
+[g2@g2 repo]$ ls -lrht
+total 0
+drwxrwxr-x. 3 g2 g2  41 Aug  1  2020 class_080120
+drwxrwxr-x. 3 g2 g2  41 Sep 19  2020 class_091920
+drwxrwxr-x. 5 g2 g2  81 Sep 23  2020 bash_092320
+drwxrwxr-x. 3 g2 g2  40 Nov 23  2020 bash_112320
+drwxrwxr-x. 3 g2 g2  41 Nov 24  2020 class_112420
+drwxrwxr-x. 3 g2 g2  40 Dec 23  2020 bash_122320
+drwxrwxr-x. 3 g2 g2  40 Dec 25  2020 bash_122520
+drwxrwxr-x. 3 g2 g2 130 Jan 17  2022 python_011722
+drwxrwxr-x. 2 g2 g2  89 Jan 23  2022 python_code_012322
+drwxrwxr-x. 3 g2 g2 101 Jan 23  2022 python_012322
+drwxrwxr-x. 3 g2 g2  40 Jun 26  2022 bash_062622
+drwxrwxr-x. 3 g2 g2  47 Jan 16  2023 python_011623
+[g2@g2 repo]$ git clone g1@g1:/home/g1/repo/python_091723
+Cloning into 'python_091723'...
+warning: You appear to have cloned an empty repository.
+[g2@g2 repo]$ ls 0-lrht
+ls: cannot access 0-lrht: No such file or directory
+[g2@g2 repo]$ ls -0lhrt
+ls: invalid option -- '0'
+Try 'ls --help' for more information.
+[g2@g2 repo]$ ls -lhrt
+total 0
+drwxrwxr-x. 3 g2 g2  41 Aug  1  2020 class_080120
+drwxrwxr-x. 3 g2 g2  41 Sep 19  2020 class_091920
+drwxrwxr-x. 5 g2 g2  81 Sep 23  2020 bash_092320
+drwxrwxr-x. 3 g2 g2  40 Nov 23  2020 bash_112320
+drwxrwxr-x. 3 g2 g2  41 Nov 24  2020 class_112420
+drwxrwxr-x. 3 g2 g2  40 Dec 23  2020 bash_122320
+drwxrwxr-x. 3 g2 g2  40 Dec 25  2020 bash_122520
+drwxrwxr-x. 3 g2 g2 130 Jan 17  2022 python_011722
+drwxrwxr-x. 2 g2 g2  89 Jan 23  2022 python_code_012322
+drwxrwxr-x. 3 g2 g2 101 Jan 23  2022 python_012322
+drwxrwxr-x. 3 g2 g2  40 Jun 26  2022 bash_062622
+drwxrwxr-x. 3 g2 g2  47 Jan 16  2023 python_011623
+drwxrwxr-x. 3 g2 g2  18 Sep 17 16:39 python_091723
+[g2@g2 repo]$ cd python_091723/
+[g2@g2 python_091723]$ ls -lhrta
+total 0
+drwxrwxr-x. 15 g2 g2 271 Sep 17 16:39 ..
+drwxrwxr-x.  3 g2 g2  18 Sep 17 16:39 .
+drwxrwxr-x.  7 g2 g2 119 Sep 17 16:39 .git
+[g2@g2 python_091723]$ git config -l
+user.email=g2@g2.com
+user.name=g 2
+push.default=matching
+core.repositoryformatversion=0
+core.filemode=true
+core.bare=false
+core.logallrefupdates=true
+remote.origin.url=g1@g1:/home/g1/repo/python_091723
+remote.origin.fetch=+refs/heads/*:refs/remotes/origin/*
+branch.master.remote=origin
+branch.master.merge=refs/heads/master
+[g2@g2 python_091723]$ vi python_091723.py
+[g2@g2 python_091723]$ git status
+# On branch master
+#
+# Initial commit
+#
+# Untracked files:
+#   (use "git add <file>..." to include in what will be committed)
+#
+#	python_091723.py
+nothing added to commit but untracked files present (use "git add" to track)
+[g2@g2 python_091723]$ git add python_091723.py 
+[g2@g2 python_091723]$ git status
+# On branch master
+#
+# Initial commit
+#
+# Changes to be committed:
+#   (use "git rm --cached <file>..." to unstage)
+#
+#	new file:   python_091723.py
+#
+[g2@g2 python_091723]$ git commit -m "commit on 091723 at 442pm"
+[master (root-commit) f2ea1fc] commit on 091723 at 442pm
+ 1 file changed, 5 insertions(+)
+ create mode 100644 python_091723.py
+[g2@g2 python_091723]$ git remote --show
+error: unknown option `show'
+usage: git remote [-v | --verbose]
+   or: git remote add [-t <branch>] [-m <master>] [-f] [--tags|--no-tags] [--mirror=<fetch|push>] <name> <url>
+   or: git remote rename <old> <new>
+   or: git remote remove <name>
+   or: git remote set-head <name> (-a | -d | <branch>)
+   or: git remote [-v | --verbose] show [-n] <name>
+   or: git remote prune [-n | --dry-run] <name>
+   or: git remote [-v | --verbose] update [-p | --prune] [(<group> | <remote>)...]
+   or: git remote set-branches [--add] <name> <branch>...
+   or: git remote set-url [--push] <name> <newurl> [<oldurl>]
+   or: git remote set-url --add <name> <newurl>
+   or: git remote set-url --delete <name> <url>
+
+    -v, --verbose         be verbose; must be placed before a subcommand
+
+[g2@g2 python_091723]$ git remote show
+origin
+[g2@g2 python_091723]$ git config -l
+user.email=g2@g2.com
+user.name=g 2
+push.default=matching
+core.repositoryformatversion=0
+core.filemode=true
+core.bare=false
+core.logallrefupdates=true
+remote.origin.url=g1@g1:/home/g1/repo/python_091723
+remote.origin.fetch=+refs/heads/*:refs/remotes/origin/*
+branch.master.remote=origin
+branch.master.merge=refs/heads/master
+[g2@g2 python_091723]$ git branch -a
+* master
+[g2@g2 python_091723]$ git branch -vv
+* master f2ea1fc [origin/master] commit on 091723 at 442pm
+[g2@g2 python_091723]$ git log --graph --decorate --all --oneline
+* f2ea1fc (HEAD, master) commit on 091723 at 442pm
+[g2@g2 python_091723]$ git push origin master
+Counting objects: 3, done.
+Writing objects: 100% (3/3), 260 bytes | 0 bytes/s, done.
+Total 3 (delta 0), reused 0 (delta 0)
+To g1@g1:/home/g1/repo/python_091723
+ * [new branch]      master -> master
+[g2@g2 python_091723]$ git log
+commit f2ea1fcef63f4a7ac6c8145afb72a8ecfcc5e9d6
+Author: g 2 <g2@g2.com>
+Date:   Sun Sep 17 16:42:03 2023 -0700
+
+    commit on 091723 at 442pm
+[g2@g2 python_091723]$ pwd
+/home/g2/repo/python_091723
+[g2@g2 python_091723]$ git status
+# On branch master
+nothing to commit, working directory clean
+[g2@g2 python_091723]$ git branch -a
+* master
+  remotes/origin/master
+[g2@g2 python_091723]$ git branch -vv
+* master f2ea1fc [origin/master] commit on 091723 at 442pm
+[g2@g2 python_091723]$ git log --oneline --decorate --graph --all
+* f2ea1fc (HEAD, origin/master, master) commit on 091723 at 442pm
+[g2@g2 python_091723]$ git pull 
+remote: Counting objects: 5, done.
+remote: Compressing objects: 100% (2/2), done.
+remote: Total 3 (delta 0), reused 0 (delta 0)
+Unpacking objects: 100% (3/3), done.
+From g1:/home/g1/repo/python_091723
+   f2ea1fc..a13bb79  master     -> origin/master
+Updating f2ea1fc..a13bb79
+Fast-forward
+ python_091723.py | 2 ++
+ 1 file changed, 2 insertions(+)
+[g2@g2 python_091723]$ git status
+# On branch master
+nothing to commit, working directory clean
+[g2@g2 python_091723]$ git branch -a
+* master
+  remotes/origin/master
+[g2@g2 python_091723]$ git branch -vv
+* master a13bb79 [origin/master] commit @ 518pm on g3
+[g2@g2 python_091723]$ git branch g22ndbranch
+[g2@g2 python_091723]$ git branch -a
+  g22ndbranch
+* master
+  remotes/origin/master
+[g2@g2 python_091723]$ git checkout g22ndbranch
+Switched to branch 'g22ndbranch'
+[g2@g2 python_091723]$ ls
+python_091723.py
+[g2@g2 python_091723]$ vi python_091723.py 
+[g2@g2 python_091723]$ git status
+# On branch g22ndbranch
+# Changes not staged for commit:
+#   (use "git add <file>..." to update what will be committed)
+#   (use "git checkout -- <file>..." to discard changes in working directory)
+#
+#	modified:   python_091723.py
+#
+no changes added to commit (use "git add" and/or "git commit -a")
+[g2@g2 python_091723]$ git commit -a -m "commit at g22ndbranch at 526pm"
+[g22ndbranch cc7a7c2] commit at g22ndbranch at 526pm
+ 1 file changed, 2 insertions(+)
+[g2@g2 python_091723]$ git checkout master
+Switched to branch 'master'
+[g2@g2 python_091723]$ vi python_091723.py 
+[g2@g2 python_091723]$ git status
+# On branch master
+# Changes not staged for commit:
+#   (use "git add <file>..." to update what will be committed)
+#   (use "git checkout -- <file>..." to discard changes in working directory)
+#
+#	modified:   python_091723.py
+#
+no changes added to commit (use "git add" and/or "git commit -a")
+[g2@g2 python_091723]$ git diff 
+diff --git a/python_091723.py b/python_091723.py
+index f205845..44a426b 100644
+--- a/python_091723.py
++++ b/python_091723.py
+@@ -5,3 +5,6 @@ import sys
+ # g2 091723 441pm
+ 
+ # g3 501pm
++
++# on g2 master 527pm
++
+[g2@g2 python_091723]$ git commit -a -m " on g2 master 530pm"
+[master 1cc2afb]  on g2 master 530pm
+ 1 file changed, 3 insertions(+)
+[g2@g2 python_091723]$ git merge g22ndbranch
+Auto-merging python_091723.py
+CONFLICT (content): Merge conflict in python_091723.py
+Automatic merge failed; fix conflicts and then commit the result.
+[g2@g2 python_091723]$ vi python_091723.py 
+[g2@g2 python_091723]$ git commit -a -m "after fixing the conflict and recommit on g2 master at 531pm"
+[master 593419b] after fixing the conflict and recommit on g2 master at 531pm
+[g2@g2 python_091723]$ git log --oneline --decorate --graph --all
+*   593419b (HEAD, master) after fixing the conflict and recommit on g2 master at 531pm
+|\  
+| * cc7a7c2 (g22ndbranch) commit at g22ndbranch at 526pm
+* | 1cc2afb  on g2 master 530pm
+|/  
+* a13bb79 (origin/master) commit @ 518pm on g3
+* f2ea1fc commit on 091723 at 442pm
+[g2@g2 python_091723]$ git push original master
+fatal: 'original' does not appear to be a git repository
+fatal: Could not read from remote repository.
+
+Please make sure you have the correct access rights
+and the repository exists.
+[g2@g2 python_091723]$ git push origin master
+Counting objects: 9, done.
+Delta compression using up to 2 threads.
+Compressing objects: 100% (5/5), done.
+Writing objects: 100% (7/7), 743 bytes | 0 bytes/s, done.
+Total 7 (delta 1), reused 0 (delta 0)
+To g1@g1:/home/g1/repo/python_091723
+   a13bb79..593419b  master -> master
+[g2@g2 python_091723]$ vi python_091723.py 
+[g2@g2 python_091723]$ git config -l
+user.email=g2@g2.com
+user.name=g 2
+push.default=matching
+core.repositoryformatversion=0
+core.filemode=true
+core.bare=false
+core.logallrefupdates=true
+remote.origin.url=g1@g1:/home/g1/repo/python_091723
+remote.origin.fetch=+refs/heads/*:refs/remotes/origin/*
+branch.master.remote=origin
+branch.master.merge=refs/heads/master
+[g2@g2 python_091723]$ exit
+logout
+[root@g2 ~]# init 0-
+Expected single character argument.
+[root@g2 ~]# init 0
+Connection to 10.0.0.163 closed by remote host.
+Connection to 10.0.0.163 closed.
+Jordans-MBP:~ jordanlee$ 
+
+
+< from another git clietn g3 >
+
+Jordans-MBP:~ jordanlee$ ssh root@10.0.0.91
+root@10.0.0.91's password: 
+Permission denied, please try again.
+root@10.0.0.91's password: 
+Last failed login: Sun Sep 17 16:53:18 PDT 2023 from jordans-mbp on ssh:notty
+There was 1 failed login attempt since the last successful login.
+Last login: Sun Sep 17 16:47:13 2023 from jordans-mbp
+[root@g3 ~]# su - g3
+Last login: Sun Sep 17 16:47:17 PDT 2023 on pts/0
+[g3@g3 ~]$ history | grep clone
+   23  git clone g1@g1:/home/g1/repo/class_080120
+   52  git clone g1@192.168.1.131:/home/g1/repo/class_091920
+   78  git clone g1@192.168.1.131:/home/g1/repo/bash_092320
+  128  git clone g1@g1:/home/g1/repo/bash_112320
+  146  git clone g1@g1:/home/g1/repo/class_112420
+  184  git clone g1@g1:/home/g1/repo/bash_122320
+  218  git clone g1@g1:/home/g1/repo/bash_122520
+  253  git clone g1@g1:/home/g1/repo/python_011722
+  268  git clone g1@g1:/home/g1/repo/python_012322
+  338  git clone g1@g1:/home/g1/repo/bash_062622
+  385  git clone g1@g1:/home/g1/repo/python_011623
+  448  history | grep clone
+[g3@g3 ~]$ ssh g1@g1
+Last login: Sun Sep 17 16:35:40 2023 from g2
+[g1@g1 ~]$ exit
+logout
+Connection to g1 closed.
+[g3@g3 ~]$ 
+[g3@g3 ~]$ 
+[g3@g3 ~]$ clear
+
+
+
+
+
+
+
+
+
+
+[g3@g3 ~]$ 
+[g3@g3 ~]$ 
+[g3@g3 ~]$ 
+[g3@g3 ~]$ 
+[g3@g3 ~]$ 
+[g3@g3 ~]$ 
+[g3@g3 ~]$ 
+[g3@g3 ~]$ 
+[g3@g3 ~]$ 
+[g3@g3 ~]$ 
+[g3@g3 ~]$ ssh g1@g1
+Last login: Sun Sep 17 16:54:30 2023 from g3
+[g1@g1 ~]$ exit
+logout
+Connection to g1 closed.
+[g3@g3 ~]$ 
+[g3@g3 ~]$ 
+[g3@g3 ~]$ 
+[g3@g3 ~]$ 
+[g3@g3 ~]$ git clone g1@g1:/home/g1/repo/python_091723
+Cloning into 'python_091723'...
+remote: Counting objects: 3, done.
+remote: Total 3 (delta 0), reused 0 (delta 0)
+Receiving objects: 100% (3/3), done.
+[g3@g3 ~]$ ls
+python_091723  repo
+[g3@g3 ~]$ rm -rf python_091723/
+[g3@g3 ~]$ cd repo/
+[g3@g3 repo]$ ls -kghrt
+total 0
+drwxrwxr-x. 3 g3  41 Aug  1  2020 class_080120
+drwxrwxr-x. 3 g3  41 Sep 19  2020 class_091920
+drwxrwxr-x. 3 g3  50 Sep 23  2020 bash_092320
+drwxrwxr-x. 3 g3  40 Nov 23  2020 bash_112320
+drwxrwxr-x. 3 g3  41 Nov 24  2020 class_112420
+drwxrwxr-x. 3 g3  40 Dec 23  2020 bash_122320
+drwxrwxr-x. 3 g3  40 Dec 25  2020 bash_122520
+drwxrwxr-x. 3 g3 130 Jan 17  2022 python_011722
+drwxrwxr-x. 3 g3 101 Jan 23  2022 python_012322
+drwxrwxr-x. 3 g3  40 Jun 26  2022 bash_062622
+drwxrwxr-x. 3 g3  47 Jan 16  2023 python_011623
+[g3@g3 repo]$ git clone g1@g1:/home/g1/repo/python_091723
+Cloning into 'python_091723'...
+remote: Counting objects: 3, done.
+remote: Total 3 (delta 0), reused 0 (delta 0)
+Receiving objects: 100% (3/3), done.
+[g3@g3 repo]$ ls -lhrt
+total 0
+drwxrwxr-x. 3 g3 g3  41 Aug  1  2020 class_080120
+drwxrwxr-x. 3 g3 g3  41 Sep 19  2020 class_091920
+drwxrwxr-x. 3 g3 g3  50 Sep 23  2020 bash_092320
+drwxrwxr-x. 3 g3 g3  40 Nov 23  2020 bash_112320
+drwxrwxr-x. 3 g3 g3  41 Nov 24  2020 class_112420
+drwxrwxr-x. 3 g3 g3  40 Dec 23  2020 bash_122320
+drwxrwxr-x. 3 g3 g3  40 Dec 25  2020 bash_122520
+drwxrwxr-x. 3 g3 g3 130 Jan 17  2022 python_011722
+drwxrwxr-x. 3 g3 g3 101 Jan 23  2022 python_012322
+drwxrwxr-x. 3 g3 g3  40 Jun 26  2022 bash_062622
+drwxrwxr-x. 3 g3 g3  47 Jan 16  2023 python_011623
+drwxrwxr-x. 3 g3 g3  42 Sep 17 16:56 python_091723
+[g3@g3 repo]$ cd python_091723/
+[g3@g3 python_091723]$ ls -lhrta
+total 4.0K
+drwxrwxr-x. 14 g3 g3 245 Sep 17 16:56 ..
+-rw-rw-r--.  1 g3 g3  49 Sep 17 16:56 python_091723.py
+drwxrwxr-x.  8 g3 g3 163 Sep 17 16:56 .git
+drwxrwxr-x.  3 g3 g3  42 Sep 17 16:56 .
+[g3@g3 python_091723]$ git config -l
+user.email=g3@g3.com
+user.name=g 3
+use.name=g 3
+core.repositoryformatversion=0
+core.filemode=true
+core.bare=false
+core.logallrefupdates=true
+remote.origin.url=g1@g1:/home/g1/repo/python_091723
+remote.origin.fetch=+refs/heads/*:refs/remotes/origin/*
+branch.master.remote=origin
+branch.master.merge=refs/heads/master
+[g3@g3 python_091723]$ history | grep user
+   40  git config --global user.email "g3@g3.com"
+   44  git config --global user.email "g3@g3.com"
+   45  git config --global user.name "g 3"
+  462  history | grep user
+[g3@g3 python_091723]$ ls -lrht
+total 4.0K
+-rw-rw-r--. 1 g3 g3 49 Sep 17 16:56 python_091723.py
+[g3@g3 python_091723]$ git status
+# On branch master
+nothing to commit, working directory clean
+[g3@g3 python_091723]$ git branch -a
+* master
+  remotes/origin/HEAD -> origin/master
+  remotes/origin/master
+[g3@g3 python_091723]$ git branch -vv
+* master f2ea1fc [origin/master] commit on 091723 at 442pm
+[g3@g3 python_091723]$ git remote show
+origin
+[g3@g3 python_091723]$ git config -l
+user.email=g3@g3.com
+user.name=g 3
+use.name=g 3
+core.repositoryformatversion=0
+core.filemode=true
+core.bare=false
+core.logallrefupdates=true
+remote.origin.url=g1@g1:/home/g1/repo/python_091723
+remote.origin.fetch=+refs/heads/*:refs/remotes/origin/*
+branch.master.remote=origin
+branch.master.merge=refs/heads/master
+[g3@g3 python_091723]$ vi python_091723.py 
+[g3@g3 python_091723]$ git status
+# On branch master
+# Changes not staged for commit:
+#   (use "git add <file>..." to update what will be committed)
+#   (use "git checkout -- <file>..." to discard changes in working directory)
+#
+#	modified:   python_091723.py
+#
+no changes added to commit (use "git add" and/or "git commit -a")
+[g3@g3 python_091723]$ git diff
+diff --git a/python_091723.py b/python_091723.py
+index 38963f2..f205845 100644
+--- a/python_091723.py
++++ b/python_091723.py
+@@ -3,3 +3,5 @@
+ import sys
+ 
+ # g2 091723 441pm
++
++# g3 501pm
+[g3@g3 python_091723]$ git diff --staged
+[g3@g3 python_091723]$ git status
+# On branch master
+# Changes not staged for commit:
+#   (use "git add <file>..." to update what will be committed)
+#   (use "git checkout -- <file>..." to discard changes in working directory)
+#
+#	modified:   python_091723.py
+#
+no changes added to commit (use "git add" and/or "git commit -a")
+[g3@g3 python_091723]$ git diff --cached
+[g3@g3 python_091723]$ git diff
+diff --git a/python_091723.py b/python_091723.py
+index 38963f2..f205845 100644
+--- a/python_091723.py
++++ b/python_091723.py
+@@ -3,3 +3,5 @@
+ import sys
+ 
+ # g2 091723 441pm
++
++# g3 501pm
+[g3@g3 python_091723]$ git diff --staged
+[g3@g3 python_091723]$ git diff
+diff --git a/python_091723.py b/python_091723.py
+index 38963f2..f205845 100644
+--- a/python_091723.py
++++ b/python_091723.py
+@@ -3,3 +3,5 @@
+ import sys
+ 
+ # g2 091723 441pm
++
++# g3 501pm
+[g3@g3 python_091723]$ git commit -m "commit @ 516pm on g3"
+# On branch master
+# Changes not staged for commit:
+#   (use "git add <file>..." to update what will be committed)
+#   (use "git checkout -- <file>..." to discard changes in working directory)
+#
+#	modified:   python_091723.py
+#
+no changes added to commit (use "git add" and/or "git commit -a")
+[g3@g3 python_091723]$ git add python_091723.py 
+[g3@g3 python_091723]$ git diff
+[g3@g3 python_091723]$ git diff --cached
+diff --git a/python_091723.py b/python_091723.py
+index 38963f2..f205845 100644
+--- a/python_091723.py
++++ b/python_091723.py
+@@ -3,3 +3,5 @@
+ import sys
+ 
+ # g2 091723 441pm
++
++# g3 501pm
+[g3@g3 python_091723]$ git diff --staged
+diff --git a/python_091723.py b/python_091723.py
+index 38963f2..f205845 100644
+--- a/python_091723.py
++++ b/python_091723.py
+@@ -3,3 +3,5 @@
+ import sys
+ 
+ # g2 091723 441pm
++
++# g3 501pm
+[g3@g3 python_091723]$ git commit -m "commit @ 518pm on g3"
+[master a13bb79] commit @ 518pm on g3
+ 1 file changed, 2 insertions(+)
+[g3@g3 python_091723]$ git status
+# On branch master
+# Your branch is ahead of 'origin/master' by 1 commit.
+#   (use "git push" to publish your local commits)
+#
+nothing to commit, working directory clean
+[g3@g3 python_091723]$ git branch -a
+* master
+  remotes/origin/HEAD -> origin/master
+  remotes/origin/master
+[g3@g3 python_091723]$ git branch -vv
+* master a13bb79 [origin/master: ahead 1] commit @ 518pm on g3
+[g3@g3 python_091723]$ git log --oneline --decorate --graph --all
+* a13bb79 (HEAD, master) commit @ 518pm on g3
+* f2ea1fc (origin/master, origin/HEAD) commit on 091723 at 442pm
+[g3@g3 python_091723]$ git diff --staged
+[g3@g3 python_091723]$ git diff
+[g3@g3 python_091723]$ git diff --cached
+[g3@g3 python_091723]$ git status
+# On branch master
+# Your branch is ahead of 'origin/master' by 1 commit.
+#   (use "git push" to publish your local commits)
+#
+nothing to commit, working directory clean
+[g3@g3 python_091723]$ git config -l
+user.email=g3@g3.com
+user.name=g 3
+use.name=g 3
+core.repositoryformatversion=0
+core.filemode=true
+core.bare=false
+core.logallrefupdates=true
+remote.origin.url=g1@g1:/home/g1/repo/python_091723
+remote.origin.fetch=+refs/heads/*:refs/remotes/origin/*
+branch.master.remote=origin
+branch.master.merge=refs/heads/master
+[g3@g3 python_091723]$ git remote show
+origin
+[g3@g3 python_091723]$ git push origin master
+Counting objects: 5, done.
+Compressing objects: 100% (2/2), done.
+Writing objects: 100% (3/3), 293 bytes | 0 bytes/s, done.
+Total 3 (delta 0), reused 0 (delta 0)
+To g1@g1:/home/g1/repo/python_091723
+   f2ea1fc..a13bb79  master -> master
+[g3@g3 python_091723]$ git log
+commit a13bb7984fac0c73a3009349d167bf8106fb3363
+Author: g 3 <g3@g3.com>
+Date:   Sun Sep 17 17:18:24 2023 -0700
+
+    commit @ 518pm on g3
+
+commit f2ea1fcef63f4a7ac6c8145afb72a8ecfcc5e9d6
+Author: g 2 <g2@g2.com>
+Date:   Sun Sep 17 16:42:03 2023 -0700
+
+    commit on 091723 at 442pm
+[g3@g3 python_091723]$ history 
+    1  pwd
+    2  cd .ssh
+    3  ls -lhrta
+    4  cat authorized_keys 
+    5  cat /dev/null > authorized_keys 
+    6  cat authorized_keys 
+    7  cd !
+    8  cd ~
+    9  wpd
+   10  pwd
+   11  whoami
+   12  ssh-keygen -t rsa
+   13  cd .ssh
+   14  ls -lhrta
+   15  ssh-copy-id -i id_rsa.pub g1@g1:
+   16  ssh g1@g1
+   17  cd ~/repo
+   18  cd ~
+   19  ls
+   20  mkdir repo
+   21  cd repo/
+   22  git g1@g1:/home/g1/repo/class_080120
+   23  git clone g1@g1:/home/g1/repo/class_080120
+   24  pwd
+   25  ls -0lhrt
+   26  ls -lhrt
+   27  cd class_080120/
+   28  ls
+   29  which python
+   30  vi class_080120.py 
+   31  python class_080120.py 
+   32  vi class_080120.py 
+   33  python class_080120.py 
+   34  git status
+   35  git diff
+   36  git add .
+   37  git diff
+   38  git status
+   39  git commit -m 'comment added 321pm from g3'
+   40  git config --global user.email "g3@g3.com"
+   41  git config --global use.name "g 3"
+   42  git status
+   43  git commit -m 'comment added 323pm from g3'
+   44  git config --global user.email "g3@g3.com"
+   45  git config --global user.name "g 3"
+   46  git commit -m 'comment added 324pm from g3'
+   47  git diff --staged
+   48  exit
+   49  cd repo/
+   50  git config --list
+   51  ls -lhrta
+   52  git clone g1@192.168.1.131:/home/g1/repo/class_091920
+   53  ls -lhrta
+   54  git config --list
+   55  git status
+   56  cd class_091920/
+   57  git log
+   58  git status
+   59  git update
+   60  git pull
+   61  git log --oneline --decorate --graph --all
+   62  git branch -a
+   63  git branch -vv
+   64  ls -lhrt
+   65  more class_091920.py 
+   66  git fetch --all
+   67  git status
+   68  git merge origin/master
+   69  git status
+   70  ls -lrt
+   71  more class_091920.py 
+   72  ls -lrt
+   73  ls -lhrt
+   74  git branch -a
+   75  git branch -vv
+   76  exit
+   77  cd repo/
+   78  git clone g1@192.168.1.131:/home/g1/repo/bash_092320
+   79  ls -lhrt
+   80  cd bash_092320/
+   81  ls
+   82  more for_loop2.sh 
+   83  ls -lhrt
+   84  vi for_loop2.sh
+   85  chmod +x for_loop2.sh 
+   86  ./for_loop2.sh 
+   87  vi +10 ./for_loop2.sh 
+   88  ./for_loop2.sh 
+   89  vi +10 ./for_loop2.sh 
+   90  ./for_loop2.sh 
+   91  vi list
+   92  pwd
+   93  vi +10 ./for_loop2.sh 
+   94  ./for_loop2.sh 
+   95  vi +10 ./for_loop2.sh 
+   96  ./for_loop2.sh 
+   97  vi +10 ./for_loop2.sh 
+   98  ./for_loop2.sh 
+   99  vi +10 ./for_loop2.sh 
+  100  ./for_loop2.sh 
+  101  vi +21 ./for_loop2.sh 
+  102  ./for_loop2.sh 
+  103  git status
+  104  git diff
+  105  git add for_loop2.sh 
+  106  git status
+  107  git diff --staged
+  108  git commit -m 'update for_loop2 on 441pm'
+  109  git status
+  110  git push
+  111  git status
+  112  git branch -a
+  113  git branch -vv
+  114  git rev-list -n 1 --before="Wed Sep 23 16:51:43 2020 -0700" origin/master 
+  115  git checkout c2b61d006786f7282fcec09abdd770df9a517f93
+  116  view for_loop2.sh 
+  117  history | tail -10
+  118  git fetch --all
+  119  git status
+  120  git branch -a
+  121  git branch -vv
+  122  git merge origin/master
+  123  git status
+  124  vi for_loop2.sh 
+  125  git status
+  126  exit
+  127  cd repo/
+  128  git clone g1@g1:/home/g1/repo/bash_112320
+  129  ls -lhrt
+  130  cd bash_112320/
+  131  ls -lhrta
+  132  vi bash_112320.sh 
+  133  git config --list
+  134  ls -lhrta
+  135  cd .git
+  136  ls 
+  137  cd ..
+  138  git status
+  139  git commit -a -m 'add from g3 at 455pm'
+  140  git status
+  141  git branch -a
+  142  git branch -vv
+  143  git push origin master
+  144  exit
+  145  cd repo/
+  146  git clone g1@g1:/home/g1/repo/class_112420
+  147  ls -lhrt
+  148  cd class_112420/
+  149  ls -lhrt
+  150  vi class_112420.py 
+  151  git status
+  152  git diff --staged
+  153  git diff 
+  154  git status
+  155  git add class_112420.py 
+  156  git commit -m 'adding stuff from g3 at 326pm'
+  157  git status
+  158  git config --list
+  159  git branch -vv
+  160  git status
+  161  git push origin master
+  162  ls -lhrta
+  163  cd .git
+  164  ls
+  165  cd refs/
+  166  ls
+  167  ls -lhrt
+  168  cd heads/
+  169  ls
+  170  more master 
+  171  pwd
+  172  cd ../..
+  173  ls
+  174  cd objects/
+  175  ls
+  176  pwd
+  177  ls -lrht
+  178  exit
+  179  pwd
+  180  cd repo/
+  181  ls -lhrt
+  182  git config --list
+  183  git config --help
+  184  git clone g1@g1:/home/g1/repo/bash_122320
+  185  ls -lhrt
+  186  cd bash_122320/
+  187  ls -lhrt
+  188  vi bash_122320.sh 
+  189  git status
+  190  git checkout -- bash_122320.sh 
+  191  vi bash_122320.sh 
+  192  git status
+  193  git add bash_122320.sh 
+  194  git status
+  195  git reset bash_122320.sh 
+  196  git status
+  197  git add bash_122320.sh 
+  198  git status
+  199  git reset HEAD bash_122320.sh 
+  200  git status
+  201  git add bash_122320.sh 
+  202  git status
+  203  git comment -m 'commented added from g3 509pm'
+  204  git commit -m 'comment added from g3 509pm'
+  205  git status
+  206  git remote show
+  207  git branch -a
+  208  git branch -vv
+  209  git log --oneline --decorate --graph --all
+  210  git push 
+  211  git fetch all
+  212  git fetch --all
+  213  git merge origin/master
+  214  vi bash_122320.sh 
+  215  exit
+  216  cd repo/
+  217  ls -lhrt | tail -5
+  218  git clone g1@g1:/home/g1/repo/bash_122520
+  219  ls -lhrt
+  220  cd bash_1225`
+  221  cd bash_122520/
+  222  ls -lhrt
+  223  vi pingsubnet3.sh 
+  224  git status
+  225  git checkout pingsubnet3.sh 
+  226  vi pingsubnet3.sh 
+  227  git status
+  228  git add pingsubnet3.sh 
+  229  git status
+  230  git reset HEAD pingsubnet3.sh 
+  231  git status
+  232  git add pingsubnet3.sh 
+  233  git status
+  234  git commit -m 'comment added from g3 at 259pm'
+  235  git status
+  236  git config --list
+  237  more .git/refs/heads/master 
+  238  git branch -a
+  239  git branch -vv
+  240  git log --oneline --decorate --graph --all'
+  241  git log --oneline --decorate --graph --all
+  242  git status
+  243  git push origin master
+  244  git rev-list -n 1 --before="Fri Dec 25 15:22:48 2020 -0800" origin/master
+  245  git checkout 28ef757901d9ce4057367cfb285d32978fe583a1
+  246  more .git/refs/heads/master 
+  247  vi pingsubnet3.sh 
+  248  git status
+  249  git diff
+  250  exit
+  251  cd repo/
+  252  ls -lhrt
+  253  git clone g1@g1:/home/g1/repo/python_011722
+  254  ls -lhrt
+  255  cd python_011722/
+  256  ls -lhrt
+  257  more total_python_011722.py 
+  258  ls -lhrta
+  259  python total_python_011722.py 
+  260  which python
+  261  /bin/python total_python_011722.py 
+  262  python total_python_011722.py -f testfile2
+  263  exit
+  264  cd repo/
+  265  ls -lhrkt
+  266  history
+  267  ls -lhrt
+  268  git clone g1@g1:/home/g1/repo/python_012322
+  269  ls -lhrta
+  270  cd python_012322/
+  271  ls -lhrta
+  272  ./python_total_012322.py 
+  273  git config --list
+  274  git status
+  275  git diff
+  276  git branch -a
+  277  git branch -vv
+  278  git log --decorate --graph --all 
+  279  git commit --help
+  280  git log --oneline --decorate --graph --all
+  281  ls -lhrta
+  282  git status
+  283  git diff
+  284  git diff --staged
+  285  git branch -a
+  286  git branch -vv
+  287  vi python_total_012322.py 
+  288  git status
+  289  git diff
+  290  git diff --staged
+  291  git branch 2ndbranch
+  292  git branch -a
+  293  git branch -vv
+  294  git checkout 2ndbranch
+  295  git branch -a
+  296  git branch -vv
+  297  git log --oneline --decorate --graph --all
+  298  vi python_total_012322.py 
+  299  git status
+  300  git commit -a -m "update fromm 2ndbranch from g3 012322 528pm"
+  301  git status
+  302  git branch -a
+  303  git checkout master
+  304  git branch -a
+  305  vi python_total_012322.py 
+  306  git status
+  307  git diff
+  308  git diff --staged
+  309  git status
+  310  git commit -a -m "update from master from g3 012322 532pm"
+  311  git status
+  312  git merge 2ndbranch
+  313  vi python_total_012322.py 
+  314  git status
+  315  git commit -m "after fixing conflict recommit from master from g3 @ 012322 536pm"
+  316  git merge 2ndbranch
+  317  vi python_total_012322.py 
+  318  git diff
+  319  git commit -a -m "after fixing conflict and re-add file recomit from master again from g3 012322 538pm"
+  320  git merge 2ndbranch
+  321  git diff
+  322  git diff --staged
+  323  git status
+  324  git branch -a
+  325  git branch -vv
+  326  git push origin master
+  327  git log
+  328  git merge origin/master
+  329  git pull
+  330  git status
+  331  git log --oneline --decorate --grapgh --all
+  332  git log --oneline --decorate --graph --all
+  333  vi python_total_012322.py 
+  334  init 0
+  335  exit
+  336  cd repo/
+  337  ls -lhrt
+  338  git clone g1@g1:/home/g1/repo/bash_062622
+  339  ls -lhrt
+  340  cd bash_062622/`
+  341  cd bash_062622/
+  342  ls -lhrta
+  343  cd .git
+  344  ls
+  345  cd ..
+  346  ./bash_062622.sh 
+  347  vi bash_062622.sh 
+  348  git diff
+  349  git status
+  350  git commit -a -m "adding from g3 at 407pmm"
+  351  git status
+  352  git remote showq
+  353  git remote show
+  354  git push --help
+  355  git log
+  356  git status
+  357  git push
+  358  git config --list
+  359  git remote show
+  360  cat .git/refs/heads/master 
+  361  git log
+  362  ls
+  363  cat bash_062622.sh 
+  364  git pull
+  365  cat bash_062622.sh 
+  366  git log
+  367  git branch -a
+  368  git branch -vv
+  369  git branch --help
+  370  cat bash_062622.sh 
+  371  git pull
+  372  cat bash_062622.sh 
+  373  git status
+  374  git pull
+  375  cat bash_062622.sh 
+  376  git log --oneline --decorate --graph --all
+  377  history
+  378  ex
+  379  exit
+  380  history
+  381  whoami
+  382  pwd
+  383  cd repo/
+  384  ls -lhrt
+  385  git clone g1@g1:/home/g1/repo/python_011623
+  386  ls -lrht
+  387  cd python_011623/
+  388  ls -lhrta
+  389  vi python_test_011623.py 
+  390  git status
+  391  git add .
+  392  git status
+  393  git commit -m "adding content from g3 @ 248pm"
+  394  git status
+  395  git log --oneline --decorated --graph --all
+  396  git log --oneline --decorate --graph --all
+  397  git config -l
+  398  git push origin master
+  399  git log
+  400  git log --oneline --decorate --graph --all
+  401  git diff
+  402  git diff --staged
+  403  git diff --cached
+  404  git branch -vvv
+  405  git branch -a
+  406  git fetch
+  407  vi python_test_011623.py 
+  408  history
+  409  git merge origin/master
+  410  vi python_test_011623.py 
+  411  history | grep fetch
+  412  git fetch -h
+  413  git fetch --all
+  414  vi python_test_011623.py 
+  415  git merge origin/master
+  416  vi python_test_011623.py 
+  417  ls -lhrta
+  418  cd .git
+  419  ls -lhrta
+  420  exit
+  421  cd repo/
+  422  ls -lhrt
+  423  git pull
+  424  cd python_011623/
+  425  git pull
+  426  vi python_test_011623.py 
+  427  git status
+  428  git add python_test_011623.py 
+  429  git diff
+  430  git diff --staged
+  431  git commit -m "adding from g3 @ 325pm"
+  432  git diff
+  433  git diff --staged
+  434  git status
+  435  git push
+  436  git log
+  437  git status
+  438  git log --oneline --decorate --graph --all
+  439  git pull
+  440  git remote show
+  441  git config -l
+  442  git log --oneline --decorate --graph --all
+  443  git branch -vvv
+  444  git branch -a
+  445  vi python_test_011623.py 
+  446  git branch -h
+  447  exit
+  448  history | grep clone
+  449  ssh g1@g1
+  450  clear
+  451  ssh g1@g1
+  452  git clone g1@g1:/home/g1/repo/python_091723
+  453  ls
+  454  rm -rf python_091723/
+  455  cd repo/
+  456  ls -kghrt
+  457  git clone g1@g1:/home/g1/repo/python_091723
+  458  ls -lhrt
+  459  cd python_091723/
+  460  ls -lhrta
+  461  git config -l
+  462  history | grep user
+  463  ls -lrht
+  464  git status
+  465  git branch -a
+  466  git branch -vv
+  467  git remote show
+  468  git config -l
+  469  vi python_091723.py 
+  470  git status
+  471  git diff
+  472  git diff --staged
+  473  git status
+  474  git diff --cached
+  475  git diff
+  476  git diff --staged
+  477  git diff
+  478  git commit -m "commit @ 516pm on g3"
+  479  git add python_091723.py 
+  480  git diff
+  481  git diff --cached
+  482  git diff --staged
+  483  git commit -m "commit @ 518pm on g3"
+  484  git status
+  485  git branch -a
+  486  git branch -vv
+  487  git log --oneline --decorate --graph --all
+  488  git diff --staged
+  489  git diff
+  490  git diff --cached
+  491  git status
+  492  git config -l
+  493  git remote show
+  494  git push origin master
+  495  git log
+  496  history 
+[g3@g3 python_091723]$ history 
+    1  pwd
+    2  cd .ssh
+    3  ls -lhrta
+    4  cat authorized_keys 
+    5  cat /dev/null > authorized_keys 
+    6  cat authorized_keys 
+    7  cd !
+    8  cd ~
+    9  wpd
+   10  pwd
+   11  whoami
+   12  ssh-keygen -t rsa
+   13  cd .ssh
+   14  ls -lhrta
+   15  ssh-copy-id -i id_rsa.pub g1@g1:
+   16  ssh g1@g1
+   17  cd ~/repo
+   18  cd ~
+   19  ls
+   20  mkdir repo
+   21  cd repo/
+   22  git g1@g1:/home/g1/repo/class_080120
+   23  git clone g1@g1:/home/g1/repo/class_080120
+   24  pwd
+   25  ls -0lhrt
+   26  ls -lhrt
+   27  cd class_080120/
+   28  ls
+   29  which python
+   30  vi class_080120.py 
+   31  python class_080120.py 
+   32  vi class_080120.py 
+   33  python class_080120.py 
+   34  git status
+   35  git diff
+   36  git add .
+   37  git diff
+   38  git status
+   39  git commit -m 'comment added 321pm from g3'
+   40  git config --global user.email "g3@g3.com"
+   41  git config --global use.name "g 3"
+   42  git status
+   43  git commit -m 'comment added 323pm from g3'
+   44  git config --global user.email "g3@g3.com"
+   45  git config --global user.name "g 3"
+   46  git commit -m 'comment added 324pm from g3'
+   47  git diff --staged
+   48  exit
+   49  cd repo/
+   50  git config --list
+   51  ls -lhrta
+   52  git clone g1@192.168.1.131:/home/g1/repo/class_091920
+   53  ls -lhrta
+   54  git config --list
+   55  git status
+   56  cd class_091920/
+   57  git log
+   58  git status
+   59  git update
+   60  git pull
+   61  git log --oneline --decorate --graph --all
+   62  git branch -a
+   63  git branch -vv
+   64  ls -lhrt
+   65  more class_091920.py 
+   66  git fetch --all
+   67  git status
+   68  git merge origin/master
+   69  git status
+   70  ls -lrt
+   71  more class_091920.py 
+   72  ls -lrt
+   73  ls -lhrt
+   74  git branch -a
+   75  git branch -vv
+   76  exit
+   77  cd repo/
+   78  git clone g1@192.168.1.131:/home/g1/repo/bash_092320
+   79  ls -lhrt
+   80  cd bash_092320/
+   81  ls
+   82  more for_loop2.sh 
+   83  ls -lhrt
+   84  vi for_loop2.sh
+   85  chmod +x for_loop2.sh 
+   86  ./for_loop2.sh 
+   87  vi +10 ./for_loop2.sh 
+   88  ./for_loop2.sh 
+   89  vi +10 ./for_loop2.sh 
+   90  ./for_loop2.sh 
+   91  vi list
+   92  pwd
+   93  vi +10 ./for_loop2.sh 
+   94  ./for_loop2.sh 
+   95  vi +10 ./for_loop2.sh 
+   96  ./for_loop2.sh 
+   97  vi +10 ./for_loop2.sh 
+   98  ./for_loop2.sh 
+   99  vi +10 ./for_loop2.sh 
+  100  ./for_loop2.sh 
+  101  vi +21 ./for_loop2.sh 
+  102  ./for_loop2.sh 
+  103  git status
+  104  git diff
+  105  git add for_loop2.sh 
+  106  git status
+  107  git diff --staged
+  108  git commit -m 'update for_loop2 on 441pm'
+  109  git status
+  110  git push
+  111  git status
+  112  git branch -a
+  113  git branch -vv
+  114  git rev-list -n 1 --before="Wed Sep 23 16:51:43 2020 -0700" origin/master 
+  115  git checkout c2b61d006786f7282fcec09abdd770df9a517f93
+  116  view for_loop2.sh 
+  117  history | tail -10
+  118  git fetch --all
+  119  git status
+  120  git branch -a
+  121  git branch -vv
+  122  git merge origin/master
+  123  git status
+  124  vi for_loop2.sh 
+  125  git status
+  126  exit
+  127  cd repo/
+  128  git clone g1@g1:/home/g1/repo/bash_112320
+  129  ls -lhrt
+  130  cd bash_112320/
+  131  ls -lhrta
+  132  vi bash_112320.sh 
+  133  git config --list
+  134  ls -lhrta
+  135  cd .git
+  136  ls 
+  137  cd ..
+  138  git status
+  139  git commit -a -m 'add from g3 at 455pm'
+  140  git status
+  141  git branch -a
+  142  git branch -vv
+  143  git push origin master
+  144  exit
+  145  cd repo/
+  146  git clone g1@g1:/home/g1/repo/class_112420
+  147  ls -lhrt
+  148  cd class_112420/
+  149  ls -lhrt
+  150  vi class_112420.py 
+  151  git status
+  152  git diff --staged
+  153  git diff 
+  154  git status
+  155  git add class_112420.py 
+  156  git commit -m 'adding stuff from g3 at 326pm'
+  157  git status
+  158  git config --list
+  159  git branch -vv
+  160  git status
+  161  git push origin master
+  162  ls -lhrta
+  163  cd .git
+  164  ls
+  165  cd refs/
+  166  ls
+  167  ls -lhrt
+  168  cd heads/
+  169  ls
+  170  more master 
+  171  pwd
+  172  cd ../..
+  173  ls
+  174  cd objects/
+  175  ls
+  176  pwd
+  177  ls -lrht
+  178  exit
+  179  pwd
+  180  cd repo/
+  181  ls -lhrt
+  182  git config --list
+  183  git config --help
+  184  git clone g1@g1:/home/g1/repo/bash_122320
+  185  ls -lhrt
+  186  cd bash_122320/
+  187  ls -lhrt
+  188  vi bash_122320.sh 
+  189  git status
+  190  git checkout -- bash_122320.sh 
+  191  vi bash_122320.sh 
+  192  git status
+  193  git add bash_122320.sh 
+  194  git status
+  195  git reset bash_122320.sh 
+  196  git status
+  197  git add bash_122320.sh 
+  198  git status
+  199  git reset HEAD bash_122320.sh 
+  200  git status
+  201  git add bash_122320.sh 
+  202  git status
+  203  git comment -m 'commented added from g3 509pm'
+  204  git commit -m 'comment added from g3 509pm'
+  205  git status
+  206  git remote show
+  207  git branch -a
+  208  git branch -vv
+  209  git log --oneline --decorate --graph --all
+  210  git push 
+  211  git fetch all
+  212  git fetch --all
+  213  git merge origin/master
+  214  vi bash_122320.sh 
+  215  exit
+  216  cd repo/
+  217  ls -lhrt | tail -5
+  218  git clone g1@g1:/home/g1/repo/bash_122520
+  219  ls -lhrt
+  220  cd bash_1225`
+  221  cd bash_122520/
+  222  ls -lhrt
+  223  vi pingsubnet3.sh 
+  224  git status
+  225  git checkout pingsubnet3.sh 
+  226  vi pingsubnet3.sh 
+  227  git status
+  228  git add pingsubnet3.sh 
+  229  git status
+  230  git reset HEAD pingsubnet3.sh 
+  231  git status
+  232  git add pingsubnet3.sh 
+  233  git status
+  234  git commit -m 'comment added from g3 at 259pm'
+  235  git status
+  236  git config --list
+  237  more .git/refs/heads/master 
+  238  git branch -a
+  239  git branch -vv
+  240  git log --oneline --decorate --graph --all'
+  241  git log --oneline --decorate --graph --all
+  242  git status
+  243  git push origin master
+  244  git rev-list -n 1 --before="Fri Dec 25 15:22:48 2020 -0800" origin/master
+  245  git checkout 28ef757901d9ce4057367cfb285d32978fe583a1
+  246  more .git/refs/heads/master 
+  247  vi pingsubnet3.sh 
+  248  git status
+  249  git diff
+  250  exit
+  251  cd repo/
+  252  ls -lhrt
+  253  git clone g1@g1:/home/g1/repo/python_011722
+  254  ls -lhrt
+  255  cd python_011722/
+  256  ls -lhrt
+  257  more total_python_011722.py 
+  258  ls -lhrta
+  259  python total_python_011722.py 
+  260  which python
+  261  /bin/python total_python_011722.py 
+  262  python total_python_011722.py -f testfile2
+  263  exit
+  264  cd repo/
+  265  ls -lhrkt
+  266  history
+  267  ls -lhrt
+  268  git clone g1@g1:/home/g1/repo/python_012322
+  269  ls -lhrta
+  270  cd python_012322/
+  271  ls -lhrta
+  272  ./python_total_012322.py 
+  273  git config --list
+  274  git status
+  275  git diff
+  276  git branch -a
+  277  git branch -vv
+  278  git log --decorate --graph --all 
+  279  git commit --help
+  280  git log --oneline --decorate --graph --all
+  281  ls -lhrta
+  282  git status
+  283  git diff
+  284  git diff --staged
+  285  git branch -a
+  286  git branch -vv
+  287  vi python_total_012322.py 
+  288  git status
+  289  git diff
+  290  git diff --staged
+  291  git branch 2ndbranch
+  292  git branch -a
+  293  git branch -vv
+  294  git checkout 2ndbranch
+  295  git branch -a
+  296  git branch -vv
+  297  git log --oneline --decorate --graph --all
+  298  vi python_total_012322.py 
+  299  git status
+  300  git commit -a -m "update fromm 2ndbranch from g3 012322 528pm"
+  301  git status
+  302  git branch -a
+  303  git checkout master
+  304  git branch -a
+  305  vi python_total_012322.py 
+  306  git status
+  307  git diff
+  308  git diff --staged
+  309  git status
+  310  git commit -a -m "update from master from g3 012322 532pm"
+  311  git status
+  312  git merge 2ndbranch
+  313  vi python_total_012322.py 
+  314  git status
+  315  git commit -m "after fixing conflict recommit from master from g3 @ 012322 536pm"
+  316  git merge 2ndbranch
+  317  vi python_total_012322.py 
+  318  git diff
+  319  git commit -a -m "after fixing conflict and re-add file recomit from master again from g3 012322 538pm"
+  320  git merge 2ndbranch
+  321  git diff
+  322  git diff --staged
+  323  git status
+  324  git branch -a
+  325  git branch -vv
+  326  git push origin master
+  327  git log
+  328  git merge origin/master
+  329  git pull
+  330  git status
+  331  git log --oneline --decorate --grapgh --all
+  332  git log --oneline --decorate --graph --all
+  333  vi python_total_012322.py 
+  334  init 0
+  335  exit
+  336  cd repo/
+  337  ls -lhrt
+  338  git clone g1@g1:/home/g1/repo/bash_062622
+  339  ls -lhrt
+  340  cd bash_062622/`
+  341  cd bash_062622/
+  342  ls -lhrta
+  343  cd .git
+  344  ls
+  345  cd ..
+  346  ./bash_062622.sh 
+  347  vi bash_062622.sh 
+  348  git diff
+  349  git status
+  350  git commit -a -m "adding from g3 at 407pmm"
+  351  git status
+  352  git remote showq
+  353  git remote show
+  354  git push --help
+  355  git log
+  356  git status
+  357  git push
+  358  git config --list
+  359  git remote show
+  360  cat .git/refs/heads/master 
+  361  git log
+  362  ls
+  363  cat bash_062622.sh 
+  364  git pull
+  365  cat bash_062622.sh 
+  366  git log
+  367  git branch -a
+  368  git branch -vv
+  369  git branch --help
+  370  cat bash_062622.sh 
+  371  git pull
+  372  cat bash_062622.sh 
+  373  git status
+  374  git pull
+  375  cat bash_062622.sh 
+  376  git log --oneline --decorate --graph --all
+  377  history
+  378  ex
+  379  exit
+  380  history
+  381  whoami
+  382  pwd
+  383  cd repo/
+  384  ls -lhrt
+  385  git clone g1@g1:/home/g1/repo/python_011623
+  386  ls -lrht
+  387  cd python_011623/
+  388  ls -lhrta
+  389  vi python_test_011623.py 
+  390  git status
+  391  git add .
+  392  git status
+  393  git commit -m "adding content from g3 @ 248pm"
+  394  git status
+  395  git log --oneline --decorated --graph --all
+  396  git log --oneline --decorate --graph --all
+  397  git config -l
+  398  git push origin master
+  399  git log
+  400  git log --oneline --decorate --graph --all
+  401  git diff
+  402  git diff --staged
+  403  git diff --cached
+  404  git branch -vvv
+  405  git branch -a
+  406  git fetch
+  407  vi python_test_011623.py 
+  408  history
+  409  git merge origin/master
+  410  vi python_test_011623.py 
+  411  history | grep fetch
+  412  git fetch -h
+  413  git fetch --all
+  414  vi python_test_011623.py 
+  415  git merge origin/master
+  416  vi python_test_011623.py 
+  417  ls -lhrta
+  418  cd .git
+  419  ls -lhrta
+  420  exit
+  421  cd repo/
+  422  ls -lhrt
+  423  git pull
+  424  cd python_011623/
+  425  git pull
+  426  vi python_test_011623.py 
+  427  git status
+  428  git add python_test_011623.py 
+  429  git diff
+  430  git diff --staged
+  431  git commit -m "adding from g3 @ 325pm"
+  432  git diff
+  433  git diff --staged
+  434  git status
+  435  git push
+  436  git log
+  437  git status
+  438  git log --oneline --decorate --graph --all
+  439  git pull
+  440  git remote show
+  441  git config -l
+  442  git log --oneline --decorate --graph --all
+  443  git branch -vvv
+  444  git branch -a
+  445  vi python_test_011623.py 
+  446  git branch -h
+  447  exit
+  448  history | grep clone
+  449  ssh g1@g1
+  450  clear
+  451  ssh g1@g1
+  452  git clone g1@g1:/home/g1/repo/python_091723
+  453  ls
+  454  rm -rf python_091723/
+  455  cd repo/
+  456  ls -kghrt
+  457  git clone g1@g1:/home/g1/repo/python_091723
+  458  ls -lhrt
+  459  cd python_091723/
+  460  ls -lhrta
+  461  git config -l
+  462  history | grep user
+  463  ls -lrht
+  464  git status
+  465  git branch -a
+  466  git branch -vv
+  467  git remote show
+  468  git config -l
+  469  vi python_091723.py 
+  470  git status
+  471  git diff
+  472  git diff --staged
+  473  git status
+  474  git diff --cached
+  475  git diff
+  476  git diff --staged
+  477  git diff
+  478  git commit -m "commit @ 516pm on g3"
+  479  git add python_091723.py 
+  480  git diff
+  481  git diff --cached
+  482  git diff --staged
+  483  git commit -m "commit @ 518pm on g3"
+  484  git status
+  485  git branch -a
+  486  git branch -vv
+  487  git log --oneline --decorate --graph --all
+  488  git diff --staged
+  489  git diff
+  490  git diff --cached
+  491  git status
+  492  git config -l
+  493  git remote show
+  494  git push origin master
+  495  git log
+  496  history 
+[g3@g3 python_091723]$ history | grep fetch
+   66  git fetch --all
+  118  git fetch --all
+  211  git fetch all
+  212  git fetch --all
+  406  git fetch
+  411  history | grep fetch
+  412  git fetch -h
+  413  git fetch --all
+  497  history | grep fetch
+[g3@g3 python_091723]$ git fetch --all
+Fetching origin
+remote: Counting objects: 9, done.
+remote: Compressing objects: 100% (5/5), done.
+remote: Total 7 (delta 1), reused 0 (delta 0)
+Unpacking objects: 100% (7/7), done.
+From g1:/home/g1/repo/python_091723
+   a13bb79..593419b  master     -> origin/master
+[g3@g3 python_091723]$ git log
+commit a13bb7984fac0c73a3009349d167bf8106fb3363
+Author: g 3 <g3@g3.com>
+Date:   Sun Sep 17 17:18:24 2023 -0700
+
+    commit @ 518pm on g3
+
+commit f2ea1fcef63f4a7ac6c8145afb72a8ecfcc5e9d6
+Author: g 2 <g2@g2.com>
+Date:   Sun Sep 17 16:42:03 2023 -0700
+
+    commit on 091723 at 442pm
+[g3@g3 python_091723]$ ls -l,hrt
+ls: invalid option -- ','
+Try 'ls --help' for more information.
+[g3@g3 python_091723]$ ls -lhrt
+total 4.0K
+-rw-rw-r--. 1 g3 g3 61 Sep 17 17:01 python_091723.py
+[g3@g3 python_091723]$ vi python_091723.py 
+[g3@g3 python_091723]$ git pull
+Updating a13bb79..593419b
+Fast-forward
+ python_091723.py | 2 ++
+ 1 file changed, 2 insertions(+)
+[g3@g3 python_091723]$ git log
+commit 593419b4bf05217f6ce761e0247a56f466b8af95
+Merge: 1cc2afb cc7a7c2
+Author: g 2 <g2@g2.com>
+Date:   Sun Sep 17 17:31:46 2023 -0700
+
+    after fixing the conflict and recommit on g2 master at 531pm
+
+commit 1cc2afb08354f6900d6fc25090998f61bf03659f
+Author: g 2 <g2@g2.com>
+Date:   Sun Sep 17 17:30:08 2023 -0700
+
+     on g2 master 530pm
+
+commit cc7a7c2bc063179b59f32f4e99edb084c9321a67
+Author: g 2 <g2@g2.com>
+Date:   Sun Sep 17 17:26:07 2023 -0700
+
+    commit at g22ndbranch at 526pm
+
+commit a13bb7984fac0c73a3009349d167bf8106fb3363
+Author: g 3 <g3@g3.com>
+Date:   Sun Sep 17 17:18:24 2023 -0700
+
+    commit @ 518pm on g3
+
+commit f2ea1fcef63f4a7ac6c8145afb72a8ecfcc5e9d6
+Author: g 2 <g2@g2.com>
+Date:   Sun Sep 17 16:42:03 2023 -0700
+
+    commit on 091723 at 442pm
+[g3@g3 python_091723]$ vi python_091723.py 
+[g3@g3 python_091723]$ exit
+logout
+[root@g3 ~]# init 0
+Connection to 10.0.0.91 closed by remote host.
+Connection to 10.0.0.91 c
